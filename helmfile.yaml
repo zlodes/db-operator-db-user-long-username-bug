@@ -1,0 +1,41 @@
+repositories:
+  - name: db-operator
+    url: https://db-operator.github.io/charts
+  - name: cert-manager
+    url: https://charts.jetstack.io
+
+helmDefaults:
+  wait: true
+
+releases:
+  - name: mysql
+    chart: oci://registry-1.docker.io/bitnamicharts/mysql
+    version: 12.1.0
+    atomic: true
+    values:
+      - ./values-mysql.yaml
+
+  - name: cert-manager
+    chart: cert-manager/cert-manager
+    version: 1.14.2
+    atomic: true
+    values:
+      - installCRDs: true
+
+  - name: db-operator
+    chart: db-operator/db-operator
+    version: 1.30.0
+    atomic: true
+    values:
+      - ./values-db-operator.yaml
+    needs:
+      - cert-manager
+
+  - name: test-chart
+    chart: ./test-chart
+    atomic: true
+    labels:
+      app: test-app
+    needs:
+      - mysql
+      - db-operator

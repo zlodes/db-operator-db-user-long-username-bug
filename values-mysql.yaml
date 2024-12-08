@@ -1,0 +1,17 @@
+auth:
+  rootPassword: "mysql"
+  username: "mysql"
+  password: "mysql"
+  database: "mysql"
+
+primary:
+  persistence:
+    enabled: false
+
+secondary:
+  replicaCount: 1
+  persistence:
+    enabled: false
+
+metrics:
+  enabled: false

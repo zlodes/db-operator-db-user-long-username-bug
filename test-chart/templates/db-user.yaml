@@ -1,0 +1,21 @@
+---
+apiVersion: kinda.rocks/v1beta1
+kind: DbUser
+metadata:
+  name: mysql-db-foo-user # Name will be default_mysql_db_foo_user1 (26 chars) -> no trim -> OK
+  namespace: {{ .Release.Namespace }}
+spec:
+  databaseRef: mysql-db-foo
+  accessType: readWrite
+  secretName: mysql-db-foo-user1
+
+---
+apiVersion: kinda.rocks/v1beta1
+kind: DbUser
+metadata:
+  name: mysql-db-bar-very-very-long-name # Name will be default-mysql-db-bar-very-very-long-name (40 chars) —> NOT OK
+  namespace: {{ .Release.Namespace }}
+spec:
+  databaseRef: mysql-db-foo
+  accessType: readWrite
+  secretName: mysql-db-bar-user

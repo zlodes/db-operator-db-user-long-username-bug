@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-operator-mysql
+  namespace: {{ .Release.Namespace }}
+stringData:
+  user: "root"
+  password: "mysql"
+
+---
+apiVersion: kinda.rocks/v1beta1
+kind: DbInstance
+metadata:
+  name: rds-mysql-main
+  namespace: {{ .Release.Namespace }}
+spec:
+  engine: mysql
+  adminSecretRef:
+    Namespace: {{ .Release.Namespace }}
+    Name: db-operator-mysql
+  generic:
+    host: mysql
+    port: 3306

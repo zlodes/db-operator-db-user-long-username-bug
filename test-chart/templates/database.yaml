@@ -1,0 +1,13 @@
+---
+apiVersion: kinda.rocks/v1beta1
+kind: Database
+metadata:
+  name: mysql-db-foo
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: mysql-db-foo
+  backup:
+    cron: "0 0 * * *"
+    enable: false
+  deletionProtected: false
+  instance: rds-mysql-main
